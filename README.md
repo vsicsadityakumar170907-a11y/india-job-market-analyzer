@@ -76,3 +76,6 @@ models/         # Saved classifier
 reports/        # Evaluation metrics
 requirements.txt
 ```
+## Live Demo
+
+[Open the India Data & AI Job Market dashboard](https://india-job-market-analyzer-wdmbrv8zs5p5mo8fnndsco.streamlit.app/)
