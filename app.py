@@ -46,19 +46,22 @@ st.caption(
     "Historical Naukri listing dataset, not a live job feed"
 )
 
-missing_files = [
-    path.name for path in [JOBS_PATH, SKILLS_PATH] if not path.exists()
-]
-if missing_files:
-    st.error(
-        "Processed data files nahi mile: "
-        + ", ".join(missing_files)
-        + ". Pehle cleaning aur skill extraction scripts run karein."
-    )
-    st.stop()
+jobs_upload = st.sidebar.file_uploader(
+    "Upload processed jobs CSV", type="csv", key="jobs"
+)
+skills_upload = st.sidebar.file_uploader(
+    "Upload extracted skills CSV", type="csv", key="skills"
+)
 
-jobs = pd.read_csv(JOBS_PATH)
-skills = pd.read_csv(SKILLS_PATH)
+if jobs_upload and skills_upload:
+    jobs = pd.read_csv(jobs_upload)
+    skills = pd.read_csv(skills_upload)
+elif JOBS_PATH.exists() and SKILLS_PATH.exists():
+    jobs = pd.read_csv(JOBS_PATH)
+    skills = pd.read_csv(SKILLS_PATH)
+else:
+    st.info("Dashboard ke liye dono processed CSV files upload karein.")
+    st.stop()
 
 jobs["job_id"] = jobs["job_id"].astype(str)
 skills["job_id"] = skills["job_id"].astype(str)
